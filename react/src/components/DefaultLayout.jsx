@@ -1,14 +1,10 @@
 import { Fragment } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
-import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
-import { NavLink, Outlet } from "react-router-dom";
+import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
+import { Navigate, NavLink, Outlet } from "react-router-dom";
+import { UserIcon } from "@heroicons/react/20/solid";
+import { useStateContext } from "../Context/ContextProvider";
 
-const user = {
-  name: "Tom Cook",
-  email: "tom@example.com",
-  imageUrl:
-    "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-};
 const navigation = [
   { name: "Dashboard", to: "/" },
   { name: "Surveys", to: "/surveys" },
@@ -18,12 +14,18 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-const logout = (ev) => {
-  ev.preventDefault();
-  console.log("logout");
-};
-
 export default function DefaultLayout() {
+  const { currentUser, userToken } = useStateContext();
+
+  if (!userToken) {
+    return <Navigate to="login" />;
+  }
+
+  const logout = (ev) => {
+    ev.preventDefault();
+    console.log("logout");
+  };
+
   return (
     <>
       <div className="min-h-full">
@@ -69,11 +71,7 @@ export default function DefaultLayout() {
                         <div>
                           <Menu.Button className="flex max-w-xs items-center rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                             <span className="sr-only">Open user menu</span>
-                            <img
-                              className="h-8 w-8 rounded-full"
-                              src={user.imageUrl}
-                              alt=""
-                            />
+                            <UserIcon className="w-8 h-8" />
                           </Menu.Button>
                         </div>
                         <Transition
@@ -144,18 +142,14 @@ export default function DefaultLayout() {
                 <div className="border-t border-gray-700 pt-4 pb-3">
                   <div className="flex items-center px-5">
                     <div className="flex-shrink-0">
-                      <img
-                        className="h-10 w-10 rounded-full"
-                        src={user.imageUrl}
-                        alt=""
-                      />
+                      <UserIcon className="h-8 w-8" />
                     </div>
                     <div className="ml-3">
                       <div className="text-base font-medium leading-none text-white">
-                        {user.name}
+                        {currentUser.name}
                       </div>
                       <div className="text-sm font-medium leading-none text-gray-400">
-                        {user.email}
+                        {currentUser.email}
                       </div>
                     </div>
                   </div>
