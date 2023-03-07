@@ -1,5 +1,6 @@
 import { PhotoIcon } from "@heroicons/react/24/outline";
 import React, { useState } from "react";
+import axiosClient from "../axios";
 import CustomButton from "../components/core/CustomButton";
 import PageComponent from "../components/PageComponent";
 
@@ -20,6 +21,14 @@ export const SurveyView = () => {
   const onSubmit = (ev) => {
     ev.preventDefault();
     console.log("sent");
+
+    axiosClient.post("/survey", {
+      title: "lorem ipsum",
+      description: "Test",
+      expire_date: "10-03-2023",
+      status: true,
+      questions: [],
+    });
   };
 
   return (

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Enums\QuestionTypeEnum;
+use App\Http\Requests\SurveyStoreRequest;
 use App\Http\Requests\SurveyUpdateRequest;
 use App\Http\Resources\SurveyResource;
 use App\Models\Survey;
@@ -34,9 +35,11 @@ class SurveyController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(SurveyStoreRequest $request)
     {
         $data = $request->validated();
+
+        $data['expire_date'] = date('Y-m-d H:i:s', strtotime($data['expire_date']));
 
         // Controlliamo se l Image esiste
         if (isset($data["image"])) {
