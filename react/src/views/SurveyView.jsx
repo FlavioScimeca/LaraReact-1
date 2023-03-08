@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import axiosClient from "../axios";
 import CustomButton from "../components/core/CustomButton";
 import PageComponent from "../components/PageComponent";
+import SurveyQuestions from "../components/SurveyQuestions";
 
 export const SurveyView = () => {
   const navigate = useNavigate();
@@ -58,6 +59,12 @@ export const SurveyView = () => {
     }
   };
 
+  function onQuestionsUpdate(questions) {
+    setSurvey({
+      ...survey,
+      questions,
+    });
+  }
   return (
     <PageComponent title="Create a new item">
       <form action="#" method="POST" onSubmit={onSubmit}>
@@ -102,7 +109,6 @@ export const SurveyView = () => {
               </div>
             </div>
             {/*Image*/}
-
             {/*Title*/}
             <div className="col-span-6 sm:col-span-3">
               <label
@@ -124,7 +130,6 @@ export const SurveyView = () => {
               />
             </div>
             {/*Title*/}
-
             {/*Description*/}
             <div className="col-span-6 sm:col-span-3">
               <label
@@ -146,7 +151,6 @@ export const SurveyView = () => {
               ></textarea>
             </div>
             {/*Description*/}
-
             {/*Expire Date*/}
             <div className="col-span-6 sm:col-span-3">
               <label
@@ -167,7 +171,6 @@ export const SurveyView = () => {
               />
             </div>
             {/*Expire Date*/}
-
             {/*Active*/}
             <div className="flex items-start">
               <div className="flex h-5 items-center">
@@ -192,6 +195,10 @@ export const SurveyView = () => {
               </div>
             </div>
             {/*Active*/}
+            <SurveyQuestions
+              questions={survey.questions}
+              onQuestionsUpdate={onQuestionsUpdate}
+            />
           </div>
           <div className="bg-gray-50 px-4 py-3 text-right sm:px-6">
             <CustomButton>Save</CustomButton>

@@ -59,4 +59,8 @@ class AuthController extends Controller
             "seccess" => true
         ]);
     }
+
+    public function me(Request $request){
+        return $request->user();
+    }
 }

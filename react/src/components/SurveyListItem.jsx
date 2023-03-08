@@ -9,7 +9,10 @@ export const SurveyListItem = ({ survey, OnDeleteClick }) => {
   return (
     <div>
       <img
-        src={survey.image_url}
+        src={
+          survey.image_url ??
+          "https://www.corriere.it/methode_image/2021/02/13/Spettacoli/Foto%20Spettacoli%20-%20Trattate/rsz-usatsi-14683072-kcwD-U32401100007099YTC-656x492@Corriere-Web-Sezioni.jpg"
+        }
         alt={survey.title}
         className="w-full h-48 object-cover"
       />

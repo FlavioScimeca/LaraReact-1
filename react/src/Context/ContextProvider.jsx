@@ -3,7 +3,8 @@ import { createContext, useContext, useState } from "react";
 const tmpSurveys = [
   {
     id: 1,
-    image_url: "https://api.yoursurveys.xyz/images/vJutXzn02CDwdOyh.png",
+    image_url:
+      "https://www.corriere.it/methode_image/2021/02/13/Spettacoli/Foto%20Spettacoli%20-%20Trattate/rsz-usatsi-14683072-kcwD-U32401100007099YTC-656x492@Corriere-Web-Sezioni.jpg",
     title: "TheCodeholic YouTube channel",
     slug: "thecodeholic-youtube-channel",
     status: true,
@@ -151,7 +152,7 @@ const tmpSurveys = [
   },
   {
     id: 2,
-    image_url: "https://api.yoursurveys.xyz/images/gjIHElz4aKrL0nT0.png",
+    image_url: "https://www.vectorlogo.zone/logos/reactjs/reactjs-ar21.png",
     title: "React",
     slug: "react",
     status: true,
@@ -164,7 +165,8 @@ const tmpSurveys = [
   },
   {
     id: 3,
-    image_url: "https://api.yoursurveys.xyz/images/WPfzo0g66huUYYwR.png",
+    image_url:
+      "https://cdn1.vectorstock.com/i/1000x1000/54/10/laravel-php-web-framework-logo-vector-41005410.jpg",
     title: "Laravel 9",
     slug: "laravel-9",
     status: true,
@@ -181,6 +183,7 @@ const StateContext = createContext({
   currentUser: {},
   userToken: {},
   surveys: [],
+  questionTypes: [],
   setCurrentUser: () => {},
   setUserToken: () => {},
 });
@@ -191,6 +194,13 @@ export const ContextProvider = ({ children }) => {
     localStorage.getItem("TOKEN") || ""
   );
   const [surveys, setSurveys] = useState(tmpSurveys);
+  const [questionTypes] = useState([
+    "test",
+    "select",
+    "radio",
+    "checkbox",
+    "textarea",
+  ]);
 
   const setUserToken = (token) => {
     if (token) {
@@ -209,6 +219,7 @@ export const ContextProvider = ({ children }) => {
         userToken,
         setUserToken,
         surveys,
+        questionTypes,
       }}
     >
       {children}
