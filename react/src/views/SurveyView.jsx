@@ -1,10 +1,14 @@
 import { PhotoIcon } from "@heroicons/react/24/outline";
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axiosClient from "../axios";
 import CustomButton from "../components/core/CustomButton";
 import PageComponent from "../components/PageComponent";
 
 export const SurveyView = () => {
+  const navigate = useNavigate();
+
+  const [errors, setErrors] = useState({ __html: "" });
   const [survey, setSurvey] = useState({
     title: "",
     slug: "",
@@ -16,25 +20,55 @@ export const SurveyView = () => {
     questions: [],
   });
 
-  const onImageChoose = (ev) => {};
+  const onImageChoose = (ev) => {
+    const file = ev.target.files[0];
 
-  const onSubmit = (ev) => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      setSurvey({
+        ...survey,
+        image: file,
+        image_url: reader.result,
+      });
+      ev.target.value = "";
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const onSubmit = async (ev) => {
     ev.preventDefault();
-    console.log("sent");
 
-    axiosClient.post("/survey", {
-      title: "lorem ipsum",
-      description: "Test",
-      expire_date: "10-03-2023",
-      status: true,
-      questions: [],
-    });
+    const payload = { ...survey };
+    if (payload.image) {
+      payload.image = payload.image_url;
+    }
+    delete payload.image_url;
+
+    try {
+      await axiosClient.post("/survey", payload);
+      navigate("/surveys");
+    } catch (error) {
+      if (error.response) {
+        const finalErrors = Object.values(error.response.data.errors).reduce(
+          (acc, next) => [...acc, ...next],
+          []
+        );
+        setErrors({ __html: finalErrors.join("<br>") });
+      }
+    }
   };
 
   return (
     <PageComponent title="Create a new item">
       <form action="#" method="POST" onSubmit={onSubmit}>
         <div className="shadow sm:overflow-hidden sm:rounded-md">
+          {errors.__html && (
+            <div
+              className=" bg-red-500 rounded py-2 px-3 text-white"
+              dangerouslySetInnerHTML={errors}
+            ></div>
+          )}
+
           <div className="space-y-6 bg-white px-4 py-5 sm:p-6">
             {/*Image*/}
             <div>

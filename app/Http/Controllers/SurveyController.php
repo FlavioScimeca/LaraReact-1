@@ -38,19 +38,20 @@ class SurveyController extends Controller
     public function store(SurveyStoreRequest $request)
     {
         $data = $request->validated();
-
+        
         $data['expire_date'] = date('Y-m-d H:i:s', strtotime($data['expire_date']));
 
-        // Controlliamo se l Image esiste
-        if (isset($data["image"])) {
-            $relativePath = $this->saveImage($data["image"]);
-            $data["image"] = $relativePath;
+        // Check if image was given and save on local file system
+        if (isset($data['image'])) {
+            $relativePath = $this->saveImage($data['image']);
+            $data['image'] = $relativePath;
         }
 
         $survey = Survey::create($data);
 
-        foreach ($data["questions"] as $question) {
-            $question["survey_id"] = $survey->id;
+        // Create new questions
+        foreach ($data['questions'] as $question) {
+            $question['survey_id'] = $survey->id;
             $this->createQuestion($question);
         }
 
@@ -155,8 +156,8 @@ class SurveyController extends Controller
             $type = strtolower($type[1]); // jpg, png, gif
 
             //Check if file is an image
-            if (!in_array($image, ["jpg", "jpeg", "gif", "png"])) {
-                throw new \Exception("invalid image type");
+            if (!in_array($type, ['jpg', 'jpeg', 'gif', 'png'])) {
+                throw new \Exception('invalid image type');
             }
             $image = str_replace(" ", "+", $image);
 
