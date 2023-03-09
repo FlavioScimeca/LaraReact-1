@@ -23,7 +23,7 @@ export const SurveyListItem = ({ survey, OnDeleteClick }) => {
       ></div>
 
       <div className="flex justify-between items-center mt-3">
-        <CustomButton to={`surveys/${survey.id}`}>
+        <CustomButton to={`/survey/${survey.id}`}>
           <PencilIcon className="w-5 h-5 mr-2">Edit</PencilIcon>
         </CustomButton>
         <div className="flex items-center">

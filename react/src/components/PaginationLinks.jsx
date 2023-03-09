@@ -46,8 +46,6 @@ export default function PaginationLinks({ meta, onPageClick }) {
                 meta.links.map((link, ind) => (
                   <a
                     href="#"
-                    use
-                    tabindex="-1"
                     onClick={(ev) => onClick(ev, link)}
                     key={ind}
                     aria-current="page"
