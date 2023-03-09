@@ -9,6 +9,7 @@ import { useStateContext } from "../Context/ContextProvider";
 
 const Surveys = () => {
   // const { surveys } = useStateContext();
+  const { showToast } = useStateContext();
   const [surveys, setSurveys] = useState([]);
   const [meta, setMeta] = useState({});
   const [loading, setLoading] = useState(false);
@@ -17,6 +18,7 @@ const Surveys = () => {
     if (window.confirm("Are you sure to delete it?")) {
       axiosClient.delete(`/survey/${id}`).then(() => {
         getSurveys();
+        showToast("The survey was deleted");
       });
     }
   };

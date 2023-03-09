@@ -6,8 +6,10 @@ import axiosClient from "../axios";
 import CustomButton from "../components/core/CustomButton";
 import PageComponent from "../components/PageComponent";
 import SurveyQuestions from "../components/SurveyQuestions";
+import { useStateContext } from "../Context/ContextProvider";
 
 export const SurveyView = () => {
+  const { showToast } = useStateContext();
   const navigate = useNavigate();
   const { id } = useParams();
 
@@ -58,6 +60,11 @@ export const SurveyView = () => {
     try {
       await res;
       navigate("/surveys");
+      if (id) {
+        showToast("The survey was updated");
+      } else {
+        showToast("The survey was created");
+      }
     } catch (error) {
       if (error.response) {
         const finalErrors = Object.values(error.response.data.errors).reduce(
