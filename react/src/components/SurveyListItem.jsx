@@ -5,7 +5,7 @@ import {
 import CustomButton from "./core/CustomButton";
 import { PencilIcon } from "@heroicons/react/24/outline";
 
-export const SurveyListItem = ({ survey, OnDeleteClick }) => {
+export const SurveyListItem = ({ survey, onDeleteClick }) => {
   return (
     <div>
       <img
@@ -32,7 +32,12 @@ export const SurveyListItem = ({ survey, OnDeleteClick }) => {
           </CustomButton>
 
           {survey.id && (
-            <CustomButton onClick={OnDeleteClick} circle link color="red">
+            <CustomButton
+              onClick={() => onDeleteClick(survey.id)}
+              circle
+              link
+              color="red"
+            >
               <TrashIcon className="w-5 h-5" />
             </CustomButton>
           )}
