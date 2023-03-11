@@ -1,4 +1,4 @@
-import { PhotoIcon } from "@heroicons/react/24/outline";
+import { LinkIcon, PhotoIcon, TrashIcon } from "@heroicons/react/24/outline";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
@@ -83,6 +83,8 @@ export const SurveyView = () => {
     });
   }
 
+  const onDelete = () => {};
+
   useEffect(() => {
     if (id) {
       setLoading(true);
@@ -93,7 +95,21 @@ export const SurveyView = () => {
     }
   }, []);
   return (
-    <PageComponent title={!id ? "Create a new item" : "Update Survey"}>
+    <PageComponent
+      title={!id ? "Create a new item" : "Update Survey"}
+      button={
+        <div className="flex gap-2">
+          <CustomButton color="green" href={`/survey/public/${survey.slug}`}>
+            <LinkIcon className="h-4 w-4 mr-2" />
+            Public Link
+          </CustomButton>
+          <CustomButton color="red" onClick={onDelete}>
+            <TrashIcon className="h-4 w-4 mr-2" />
+            Delete
+          </CustomButton>
+        </div>
+      }
+    >
       {loading && <div className="text-center text-lg">Loading...</div>}
 
       {!loading && (
