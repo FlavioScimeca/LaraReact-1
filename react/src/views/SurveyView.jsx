@@ -94,6 +94,7 @@ export const SurveyView = () => {
       });
     }
   }, []);
+  console.log(survey);
   return (
     <PageComponent
       title={!id ? "Create a new item" : "Update Survey"}
